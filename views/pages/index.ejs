@@ -1,0 +1,238 @@
+<svg width="1300" height="600" xmlns="http://www.w3.org/2000/svg" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <foreignObject width="1300" height="600">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Roboto');
+
+                .spotify {
+                    background: #212121;
+                    justify-content: center;
+                    height: 580px;
+                    width: 500px;
+                    margin: 10px;
+                    border-radius: 10px 10px;
+                    position: absolute;
+                    right: 0;
+                    border-width: 4px;
+                    border-color: #535353;
+                }
+
+                .now_playing {
+                    background: #121212;
+                    display: flex;
+                    height: 150px;
+                    width: initial;
+                    margin: 10px;
+                    border-radius: 10px 10px;
+                    color: #fff;
+                    align-items: center;
+                    padding: 10px;
+                }
+
+                .now_playing .song {
+                    display: flex;
+                    width: 100%;
+                    height: 150px;
+                }
+
+                .now_playing .album {
+                    height: 150px;
+                    width: 150px;
+                    background-color: #fff
+                }
+
+                .now_playing .songInfo {
+                    height: 100px;
+                    width: 100%;
+                    font-family: 'Roboto', sans-serif;
+                    margin-inline: 10px;
+                }
+
+                .now_playing .songInfo h1 {
+                    margin: 0;
+                    word-wrap: break-word;
+                    font-size: 24px;
+                    font-weight: 600;
+                    letter-spacing: .8x;
+                }
+
+                .now_playing .songInfo p {
+                    margin: 0;
+                    word-wrap: break-word;
+                    font-size: 20px;
+                    letter-spacing: .3px;
+                    font-weight: 500;
+                }
+
+                .bar {
+                    display: flex;
+                    width: 100%;
+                    height: 40px;
+                    align-items: center;
+                    place-content: space-between;
+                    color: #1db954;
+                }
+
+                .logo {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    width: 64px;
+                    height: 64px;
+                }
+
+                .bar progress {
+                    width: 80%;
+                    padding: 2px;
+                }
+
+                progress {
+                    height: 6px;
+                    border-radius: 10px;
+                }
+
+                progress::-webkit-progress-bar {
+                    border-radius: 10px;
+                    background-color: #535353
+                }
+
+                progress::-webkit-progress-value {
+                    background-color: #1db954;
+                    border-radius: 10px;
+                }
+
+
+                .queue {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    width: initial;
+                    margin: 10px;
+                    border-radius: 10px 10px;
+                    color: #fff;
+                    align-items: center;
+                    padding-inline: 10px;
+                }
+
+                .queue .album {
+                    height: 70px;
+                    width: 70px;
+                    background-color: #fff
+                }
+
+                .queue .song {
+                    margin: 10px;
+                    display: flex;
+                    width: 100%;
+                    height: 70px;
+                }
+
+                .queue .songInfo {
+                    height: 70px;
+                    width: 100%;
+                    font-family: 'Roboto', sans-serif;
+                    margin-inline: 10px;
+                }
+
+                .queue .songInfo h1 {
+                    margin: 0;
+                    word-wrap: break-word;
+                    font-size: 20px;
+                    font-weight: 500;
+                    letter-spacing: .8x;
+                }
+
+                .queue .songInfo p {
+                    margin: 0;
+                    word-wrap: break-word;
+                    font-size: 18px;
+                    letter-spacing: .3px;
+                    font-weight: 500;
+                }
+
+                .marquee {
+                    height: 25px;
+                    width: 420px;
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .marquee div {
+                    display: block;
+                    width: 100%;
+                    height: 30px;
+
+                    position: absolute;
+                    overflow: hidden;
+
+                    animation: marquee 2s linear infinite;
+                }
+
+
+                @keyframes marquee {
+                    0% {
+                        left: 100%;
+                    }
+
+                    100% {
+                        left: -100%;
+                    }
+                }
+            </style>
+
+            <body onload="startTimer(<%= data.progress_ms %>, <%= data.duration_ms %>);">
+                <div class="spotify">
+                    <div class="now_playing">
+                        <div class="song">
+                            <img src="data:png;base64,<%= data.canvas.toBuffer().toString('base64') %>" class="album" />
+                            <div class="songInfo">
+                                <h1 class="name">
+                                    <%= data.song %>
+                                </h1>
+                                <p>
+                                    <%= data.artists %>
+                                </p>
+                                <div class="bar">
+                                    <span id="progressMn">
+                                        <%= data.progress.from %>
+                                    </span>
+                                    <progress id="progress" value="<%= data.progress_ms %>"
+                                        max="<%= data.duration_ms %>">
+                                    </progress>
+                                    <span>
+                                        <%= data.progress.to %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="data:png;base64,<%= Buffer.from(icon).toString('base64') %>" class="logo" />
+                    <div class="queue">
+                        <% data.queue?.slice(0, (data.queue.length> 4 ? 4 : data.queue.length)).forEach((data) => { %>
+                            <%- include('../partials/song', { data }); %>
+                                <% }); %>
+                    </div>
+                </div>
+            </body>
+            <script>
+                function startTimer(duration, max) {
+                    console.log(duration);
+                    const dg = (s) => s.length == 1 ? "0" + s : s;
+                    const getMin = (ms) => Math.floor(ms / (1000 * 60));
+                    const getSec = (ms) => Math.round(ms / (1000) - 60 * getMin(ms));
+                    const gtf = (ms) => getMin(ms) + ':' + dg(getSec(ms).toString())
+                    var musicTimer = setInterval(function () {
+                        duration = duration + 1000
+                        if (duration > max) {
+                            duration = 0;
+                            clearInterval(musicTimer);
+                            window.location.reload();
+                        }
+                        document.getElementById("progress").setAttribute("value", duration);
+                        document.getElementById("progressMn").textContent = gtf(duration);
+                    }, 1000);
+                }
+            </script>
+        </div>
+    </foreignObject>
+</svg>
