@@ -59,7 +59,7 @@ app.get('/svg', async function (req, res) {
 
 
 app.listen(3010, "127.0.0.1", () => {
-    console.log("listening");
+    console.log(`listening on http://127.0.0.1:3010/`);
 });
 
 /**
