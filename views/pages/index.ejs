@@ -215,16 +215,17 @@
                 </div>
             </body>
             <script>
+                let i = 0;
                 function startTimer(duration, max) {
-                    console.log(duration);
                     const dg = (s) => s.length == 1 ? "0" + s : s;
                     const getMin = (ms) => Math.floor(ms / (1000 * 60));
                     const getSec = (ms) => Math.round(ms / (1000) - 60 * getMin(ms));
                     const gtf = (ms) => getMin(ms) + ':' + dg(getSec(ms).toString())
                     var musicTimer = setInterval(function () {
-                        duration = duration + 1000
-                        if (duration > max) {
-                            duration = 0;
+                        i++;
+                        duration = duration + 1000;
+                        if ((duration > max) || (i > 5)) {
+                            i = 0;
                             clearInterval(musicTimer);
                             window.location.reload();
                         }
