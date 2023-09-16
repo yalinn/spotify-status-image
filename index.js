@@ -2,15 +2,14 @@ const { createCanvas, loadImage, registerFont } = require("canvas");
 const express = require("express");
 const app = express();
 const { x, y, px, py } = {
-    x: 1300,
+    x: 520,
     y: 600,
     px: 20,
     py: 10
 };
 const canvas = createCanvas(x, y, "png");
 const g = canvas.getContext("2d");
-g.fillStyle = "#ab96b2";
-g.fillRect(0, 0, x, y);
+
 registerFont("Roboto-Regular.ttf", {
     family: "Roboto-Regular",
     weight: 40

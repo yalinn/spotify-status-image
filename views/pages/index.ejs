@@ -1,5 +1,5 @@
-<svg width="1300" height="600" xmlns="http://www.w3.org/2000/svg" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <foreignObject width="1300" height="600">
+<svg width="500" height="600" xmlns="http://www.w3.org/2000/svg" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <foreignObject width="500" height="600">
         <div xmlns="http://www.w3.org/1999/xhtml">
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Roboto');
@@ -9,7 +9,7 @@
                     justify-content: center;
                     height: 580px;
                     width: 500px;
-                    margin: 10px;
+                    margin: 0;
                     border-radius: 10px 10px;
                     position: absolute;
                     right: 0;
@@ -48,8 +48,9 @@
                     margin-inline: 10px;
                 }
 
-                .now_playing .songInfo h1 {
+                .now_playing .songInfo .name {
                     margin: 0;
+                    color: #fff;
                     word-wrap: break-word;
                     font-size: 24px;
                     font-weight: 600;
@@ -134,12 +135,21 @@
                     margin-inline: 10px;
                 }
 
-                .queue .songInfo h1 {
+                .queue .songInfo .name {
                     margin: 0;
+                    color: white;
                     word-wrap: break-word;
                     font-size: 20px;
                     font-weight: 500;
                     letter-spacing: .8x;
+                }
+
+                .name:hover {
+                    color: white;
+                }
+
+                .name:focus {
+                    color: white;
                 }
 
                 .queue .songInfo p {
@@ -186,9 +196,9 @@
                         <div class="song">
                             <img src="data:png;base64,<%= data.canvas.toBuffer().toString('base64') %>" class="album" />
                             <div class="songInfo">
-                                <h1 class="name">
+                                <a class="name" href="<%= data.url %>" target="_blank">
                                     <%= data.song %>
-                                </h1>
+                                </a>
                                 <p>
                                     <%= data.artists %>
                                 </p>
