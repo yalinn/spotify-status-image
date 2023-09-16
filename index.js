@@ -15,9 +15,21 @@ registerFont("Roboto-Regular.ttf", {
     weight: 40
 });
 const api_uri = "http://127.0.0.1:8080" //
+const { rateLimit } = require('express-rate-limit')
+const limiter = rateLimit({
+    windowMs: 1000,
+    max: 5,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+})
+app.use(limiter);
+
+let lastReq, buffer;
 app.get("/canvas", async (request, reply) => {
     reply.set('Cache-control', 'public, max-age=0');
     reply.set('X-Robots-Tag', 'noindex');
+    if (lastReq && buffer && Date.now() - lastReq < 1000) return reply.send(buffer);
+    lastReq = Date.now();
     const data = await fetch(`${api_uri}/spotify/`).then(res => res.json());
     if (!data.is_playing) {
         reply.type('image/gif');
@@ -26,6 +38,7 @@ app.get("/canvas", async (request, reply) => {
     }
     reply.type('image/png');
     const buff = await spotify(g, data);
+    buffer = buff;
     return reply.send(buff);
 });
 
