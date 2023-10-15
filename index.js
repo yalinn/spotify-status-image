@@ -28,6 +28,7 @@ let lastReq, buffer;
 app.get("/canvas", async (request, reply) => {
     reply.set('Cache-control', 'public, max-age=0');
     reply.set('X-Robots-Tag', 'noindex');
+    reply.type('image/png');
     if (lastReq && buffer && Date.now() - lastReq < 1000) return reply.send(buffer);
     lastReq = Date.now();
     const data = await fetch(`${api_uri}/spotify/`).then(res => res.json());
@@ -36,7 +37,6 @@ app.get("/canvas", async (request, reply) => {
         const file = require('fs').readFileSync("./img/lonely.gif");
         return reply.send(file);
     }
-    reply.type('image/png');
     const buff = await spotify(g, data);
     buffer = buff;
     return reply.send(buff);
