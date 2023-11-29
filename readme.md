@@ -1,6 +1,6 @@
-
-#### works fine with [orhanyalin/spotify-api-wrapper](https://github.com/orhanyalin/spotify-api-wrapper)
-> tr: veriyi çekmek için bir repo linki bıraktım
+> [!IMPORTANT]
+> works fine with [orhanyalin/spotify-api-wrapper](https://github.com/orhanyalin/spotify-api-wrapper)\
+> tr: veriyi işlemek için bir repo linki bıraktım
 
 <p align="center">
 <a href="https://open.spotify.com/user/bsa431plyu8hiphpc0ggbsa25" target="_blank" >
