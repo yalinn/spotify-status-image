@@ -1,5 +1,5 @@
 
-#### works fine with [Tantoony/spotify-api-wrapper](https://github.com/Tantoony/spotify-api-wrapper)
+#### works fine with [yalinn/spotify-api-wrapper](https://github.com/yalinn/spotify-api-wrapper)
 > tr: veriyi çekmek için bir repo linki bıraktım
 
 <p align="center">
